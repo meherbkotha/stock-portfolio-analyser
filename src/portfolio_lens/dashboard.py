@@ -7,6 +7,8 @@ import streamlit as st
 from portfolio_lens.analytics import metrics, portfolio_values
 from portfolio_lens.data_loader import load_prices, bundled_prices_bytes
 from portfolio_lens.charts import style_figure
+from portfolio_lens.assistant import build_context
+from portfolio_lens.chat_ui import render_assistant
 
 
 def chart(fig):
@@ -64,7 +66,7 @@ def main():
     cols[1].metric("Total return", f"{stats['Total return']:.2%}")
     cols[2].metric("Annual volatility", f"{stats['Annual volatility']:.2%}" if np.isfinite(stats['Annual volatility']) else "N/A")
     cols[3].metric("Max drawdown", f"{stats['Max drawdown']:.2%}")
-    overview, stocks, risk, data = st.tabs(["Portfolio overview", "Stock comparison", "Risk analysis", "Data & exports"])
+    overview, stocks, risk, data, assistant = st.tabs(["Portfolio overview", "Stock comparison", "Risk analysis", "Data & exports", "AI assistant"])
 
     with overview:
         st.subheader("Growth of your investment")
@@ -110,6 +112,9 @@ def main():
         export["Daily return"] = values.pct_change()
         export["Drawdown"] = values / values.cummax() - 1
         st.download_button("Download portfolio history", export.to_csv().encode(), "portfolio_history.csv", "text/csv")
+
+    with assistant:
+        render_assistant(build_context(prices, weights, values, stats, capital, strategy, risk_free))
 
     with st.expander("Data and calculation assumptions"):
         st.write("This app uses only the uploaded or bundled historical prices; it does not retrieve live quotes. The CSV does not specify whether prices are adjusted for splits or dividends. Results therefore reflect the supplied price series only.")

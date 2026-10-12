@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "portfolio-lens"
-version = "0.1.0"
+version = "0.2.0"
 description = "A Streamlit application for historical stock portfolio analysis"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -13,6 +13,7 @@ dependencies = [
     "pandas>=2.2,<4",
     "numpy>=2,<3",
     "plotly>=5.24,<7",
+    "openai>=1.66,<4",
 ]
 
 [project.optional-dependencies]

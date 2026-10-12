@@ -1,5 +1,6 @@
 include app.py requirements.txt
 recursive-include .streamlit *.toml
+exclude .streamlit/secrets.toml
 recursive-include docs *.md
 recursive-include scripts *.ps1
 recursive-include tests *.py
