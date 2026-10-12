@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "portfolio-lens"
+version = "0.1.0"
+description = "A Streamlit application for historical stock portfolio analysis"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit>=1.49,<2",
+    "pandas>=2.2,<4",
+    "numpy>=2,<3",
+    "plotly>=5.24,<7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "pytest-cov>=5,<8", "build>=1,<2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+portfolio_lens = ["datasets/*.csv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["portfolio_lens"]
+
+[tool.coverage.report]
+show_missing = true
